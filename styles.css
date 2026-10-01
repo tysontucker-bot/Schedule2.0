@@ -449,6 +449,7 @@ body.substitute-mode-active .layout{
 }
 .subs-launcher-label{
   display:block;
+  text-transform:uppercase;
   text-align:center;
   font-size:0.9rem;
   line-height:1.1;
@@ -1007,3 +1008,143 @@ body.substitute-mode-active .layout{
   .video-grid{ grid-template-columns: repeat(2, minmax(160px, 1fr)); }
   .symbol-grid{ grid-template-columns: repeat(4, 80px); }
 }
+
+/* Touch dragging on interactive panels / tablets */
+.current-box{ touch-action:none; }
+
+/* School Day settings */
+.settings-field{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:6px 0;
+}
+.settings-time{
+  font:inherit;
+  padding:4px 6px;
+  border-radius:8px;
+  border:2px solid #ccc;
+}
+
+/* Sound unlock prompt */
+.sound-btn{
+  position:fixed;
+  left:16px;
+  bottom:16px;
+  z-index:2000;
+  font:inherit;
+  font-weight:800;
+  padding:10px 16px;
+  border:none;
+  border-radius:999px;
+  background:#fff8c4;
+  color:#333;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+.sound-btn:focus-visible{ outline:4px solid #1565c0; outline-offset:3px; }
+
+/* ---------- Bathroom timers ---------- */
+.bathroom-box{
+  position:fixed;
+  left:14px;
+  top:280px;
+  width:210px;
+  background:#fff;
+  border:5px solid var(--border);
+  border-radius:16px;
+  z-index:14;
+  overflow:hidden;
+}
+.bathroom-head{
+  background:var(--yellow);
+  border-bottom:4px solid var(--border);
+  font-weight:900;
+  padding:6px 10px;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.bathroom-list{ display:flex; flex-direction:column; }
+.bathroom-row{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  grid-template-rows:auto 6px;
+  align-items:center;
+  column-gap:8px;
+  row-gap:4px;
+  padding:7px 10px;
+  border:none;
+  border-bottom:2px solid #e0e0e0;
+  background:#fff;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+.bathroom-row:last-child{ border-bottom:none; }
+.bathroom-row:focus-visible{ outline:4px solid #1565c0; outline-offset:-4px; }
+.bathroom-chip{
+  color:#fff;
+  font-weight:900;
+  font-size:0.95rem;
+  min-width:44px;
+  text-align:center;
+  padding:2px 8px;
+  border-radius:999px;
+}
+.bathroom-time{
+  font-weight:900;
+  font-size:1.15rem;
+  font-variant-numeric:tabular-nums;
+  text-align:right;
+}
+.bathroom-bar{
+  grid-column:1 / -1;
+  height:6px;
+  border-radius:3px;
+  background:#e8e8e8;
+  overflow:hidden;
+}
+.bathroom-bar span{ display:block; height:100%; background:#43a047; transition:width 1s linear; }
+.bathroom-row[data-status="waiting"] .bathroom-time{ color:#777; font-size:0.95rem; }
+.bathroom-row[data-status="soon"]{ background:#fff8d6; }
+.bathroom-row[data-status="soon"] .bathroom-bar span{ background:#f9a825; }
+.bathroom-row[data-status="overdue"]{ background:#ffe1e1; }
+.bathroom-row[data-status="overdue"] .bathroom-time{ color:#c62828; }
+.bathroom-row[data-status="overdue"] .bathroom-chip{ animation:bathroom-pulse 1.6s ease-in-out infinite; }
+@keyframes bathroom-pulse{ 50%{ box-shadow:0 0 0 5px rgba(229,57,53,.45); } }
+@media (prefers-reduced-motion: reduce){
+  .bathroom-row[data-status="overdue"] .bathroom-chip{ animation:none; box-shadow:0 0 0 4px rgba(229,57,53,.6); }
+  .bathroom-bar span{ transition:none; }
+}
+.bathroom-status{
+  font-size:0.8rem;
+  font-weight:800;
+  padding:4px 10px 6px;
+  color:#555;
+  border-top:2px solid #e0e0e0;
+}
+
+.bathroom-qr-modal{ width:min(420px, 92vw); }
+.bathroom-qr-body{ display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+.bathroom-qr-code svg{ width:min(320px, 72vw); height:auto; display:block; background:#fff; }
+.bathroom-qr-due{ font-weight:900; font-size:1.2rem; }
+
+.bathroom-setup-modal{ width:min(560px, 94vw); }
+.bathroom-setup-body{ display:flex; flex-direction:column; gap:10px; overflow:auto; }
+.bathroom-setup-heading{ font-weight:900; font-size:1.1rem; margin-top:10px; }
+.bathroom-field{ display:flex; align-items:center; justify-content:space-between; gap:12px; font-weight:800; }
+.bathroom-field-stack{ flex-direction:column; align-items:stretch; gap:6px; }
+.bathroom-inline{ display:flex; gap:8px; }
+.bathroom-number{ width:110px; }
+.bathroom-students{ display:flex; flex-direction:column; gap:8px; }
+.bathroom-student{ display:grid; grid-template-columns:48px 1fr auto; gap:8px; align-items:center; }
+.bathroom-student input[type="color"]{ width:48px; height:44px; border:3px solid var(--border); border-radius:10px; padding:2px; background:#fff; }
+.bathroom-conn{ font-weight:800; padding:8px 10px; border-radius:10px; background:#f1f1f1; }
+.bathroom-conn[data-state="ok"]{ background:#e3f4e4; }
+.bathroom-conn[data-state="error"], .bathroom-conn[data-state="wrong-code"]{ background:#ffe1e1; }
+#btnBathroomPrint:disabled, #btnPhoneCopyLink:disabled{ opacity:.5; cursor:not-allowed; transform:none; }
+
+#phoneSetupOverlay .bathroom-qr-modal{ width:min(620px, 94vw); }
+#phoneSetupCode svg{ width:min(480px, 80vw, 62vh); }
